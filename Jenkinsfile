@@ -80,7 +80,7 @@ pipeline {
   //       slackSend(channel:'your slack channel_name', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
   //     }
   //   }  
-  // }
+   }
     post {
         always {
             // Clean up workspace
