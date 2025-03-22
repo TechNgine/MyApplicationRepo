@@ -1,5 +1,5 @@
 <html>
-<Maven-Project>
+<title>My First Freestyle Job</title>
 <body>
 <h2>Hello World!</h2>
 <h2>Hello, Building my first freestyle job </h2>
