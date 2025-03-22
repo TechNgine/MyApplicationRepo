@@ -1,8 +1,9 @@
-<html>
-<title>My First Freestyle Job</title>
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+    <title>My Web Application</title>
+</head>
 <body>
-<h2>Hello World!</h2>
-<h2>Hello, Building my first freestyle job </h2>
-<h2>I'm making this chnage to trigger a build using poll scm  set timer to 2min </h2>
+    <h2>Welcome to My Web Application</h2>
 </body>
 </html>
