@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-      sh 'mvn clean install -f MyWebApp/pom.xml'
+      sh 'mvn clean package -f MyWebApp/pom.xml'
       }
     }
     stage ('Code Quality') {
@@ -40,7 +40,17 @@ pipeline {
     //   ])
     //   }
     // }
-    stage ('DEV Deploy') {
+
+    stage ('Prd Approve') {
+      steps {
+      echo "Taking approval from DEV Manager for QA Deployment"
+        timeout(time: 7, unit: 'DAYS') {
+        input message: 'Do you want to deploy?', submitter: 'admin'
+        }
+      }
+    }    
+    
+    stage ('Prd Deploy') {
       steps {
       echo "deploying to DEV Env "
       deploy adapters: [tomcat9(credentialsId: '61f7d24f-469f-4366-9dc8-3ec3e3cfc1de', path: '', url: 'http://ec2-52-206-214-63.compute-1.amazonaws.com:8080')], contextPath: null, war: '**/*.war'
@@ -52,34 +62,7 @@ pipeline {
     //     slackSend(channel:'your slack channel_name', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     //   }
     // }
-    stage ('DEV Approve') {
-      steps {
-      echo "Taking approval from DEV Manager for QA Deployment"
-        timeout(time: 7, unit: 'DAYS') {
-        input message: 'Do you want to deploy?', submitter: 'admin'
-        }
-      }
-    }
-  //    stage ('QA Deploy') {
-  //     steps {
-  //       echo "deploying to QA Env "
-  //       deploy adapters: [tomcat9(credentialsId: '268c42f6-f2f5-488f-b2aa-f2374d229b2e', path: '', url: 'http://your_dns_name:8080')], contextPath: null, war: '**/*.war'
-  //       }
-  //   }
-  //   stage ('QA Approve') {
-  //     steps {
-  //       echo "Taking approval from QA manager"
-  //       timeout(time: 7, unit: 'DAYS') {
-  //       input message: 'Do you want to proceed to PROD?', submitter: 'admin,manager_userid'
-  //       }
-  //     }
-  //   }
-  //   stage ('Slack Notification for QA Deploy') {
-  //     steps {
-  //       echo "deployed to QA Env successfully"
-  //       slackSend(channel:'your slack channel_name', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-  //     }
-  //   }  
+
    }
     post {
         always {
