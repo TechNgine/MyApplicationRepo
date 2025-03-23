@@ -10,13 +10,13 @@ pipeline {
       sh 'mvn clean package -f MyWebApp/pom.xml'
       }
     }
-    stage ('Code Quality') {
-      steps {
-        withSonarQubeEnv('SonarQube') {
-        sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
-        }
-      }
-    }
+    // stage ('Code Quality') {
+    //   steps {
+    //     withSonarQubeEnv('SonarQube') {
+    //     sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
+    //     }
+    //   }
+    // }
     stage ('JaCoCo') {
       steps {
       jacoco()
@@ -53,7 +53,7 @@ pipeline {
     stage ('Prd Deploy') {
       steps {
       echo "deploying to DEV Env "
-      deploy adapters: [tomcat9(credentialsId: '61f7d24f-469f-4366-9dc8-3ec3e3cfc1de', path: '', url: 'http://ec2-52-206-214-63.compute-1.amazonaws.com:8080')], contextPath: null, war: '**/*.war'
+      deploy adapters: [tomcat9(credentialsId: '61f7d24f-469f-4366-9dc8-3ec3e3cfc1de', path: '', url: 'http://ec2-3-87-1-137.compute-1.amazonaws.com:8080/')], contextPath: null, war: '**/*.war'
       }
     }
     // stage ('Slack Notification') {
